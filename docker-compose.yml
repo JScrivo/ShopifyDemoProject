@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+
+  db:
+    image: "mcr.microsoft.com/mssql/server:2017-latest"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=TipK2iHPR77
+
+
+  shopifydemoproject:
+    image: ${DOCKER_REGISTRY-}shopifydemoproject
+    build:
+      context: .
+      dockerfile: ShopifyDemoProject/Dockerfile
+    depends_on:
+      - db

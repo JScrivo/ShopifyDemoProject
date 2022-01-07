@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.32014.148
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ShopifyDemoProject", "ShopifyDemoProject\ShopifyDemoProject.csproj", "{933AC876-6521-4463-8E9B-D41E93487E94}"
+EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{0D1CA3C6-5895-490B-BADA-2F1BB8B344E7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{933AC876-6521-4463-8E9B-D41E93487E94}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{933AC876-6521-4463-8E9B-D41E93487E94}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{933AC876-6521-4463-8E9B-D41E93487E94}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{933AC876-6521-4463-8E9B-D41E93487E94}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0D1CA3C6-5895-490B-BADA-2F1BB8B344E7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0D1CA3C6-5895-490B-BADA-2F1BB8B344E7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0D1CA3C6-5895-490B-BADA-2F1BB8B344E7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0D1CA3C6-5895-490B-BADA-2F1BB8B344E7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E5746601-9B6D-41A0-8283-7AAA22B4CFDE}
+	EndGlobalSection
+EndGlobal
