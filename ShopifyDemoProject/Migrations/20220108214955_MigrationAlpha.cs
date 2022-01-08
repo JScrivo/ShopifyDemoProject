@@ -4,7 +4,7 @@
 
 namespace ShopifyDemoProject.Migrations
 {
-    public partial class Migration1 : Migration
+    public partial class MigrationAlpha : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

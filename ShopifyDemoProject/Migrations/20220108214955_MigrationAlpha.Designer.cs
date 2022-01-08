@@ -11,8 +11,8 @@ using ShopifyDemoProject;
 namespace ShopifyDemoProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220108204940_Migration1")]
-    partial class Migration1
+    [Migration("20220108214955_MigrationAlpha")]
+    partial class MigrationAlpha
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
