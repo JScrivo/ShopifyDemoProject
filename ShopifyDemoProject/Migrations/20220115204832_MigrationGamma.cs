@@ -4,7 +4,7 @@
 
 namespace ShopifyDemoProject.Migrations
 {
-    public partial class MigrationAlpha : Migration
+    public partial class MigrationGamma : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -12,13 +12,13 @@ namespace ShopifyDemoProject.Migrations
                 name: "Inventories",
                 columns: table => new
                 {
-                    ItemID = table.Column<int>(type: "int", nullable: false),
+                    ProductID = table.Column<int>(type: "int", nullable: false),
                     LocationID = table.Column<int>(type: "int", nullable: false),
                     Quantity = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Inventories", x => new { x.ItemID, x.LocationID });
+                    table.PrimaryKey("PK_Inventories", x => new { x.ProductID, x.LocationID });
                 });
 
             migrationBuilder.CreateTable(
@@ -40,13 +40,13 @@ namespace ShopifyDemoProject.Migrations
                 name: "Prices",
                 columns: table => new
                 {
-                    ItemID = table.Column<int>(type: "int", nullable: false),
+                    ProductID = table.Column<int>(type: "int", nullable: false),
                     LocationID = table.Column<int>(type: "int", nullable: false),
                     UnitPrice = table.Column<float>(type: "real", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Prices", x => new { x.ItemID, x.LocationID });
+                    table.PrimaryKey("PK_Prices", x => new { x.ProductID, x.LocationID });
                 });
 
             migrationBuilder.CreateTable(
@@ -64,6 +64,11 @@ namespace ShopifyDemoProject.Migrations
                 {
                     table.PrimaryKey("PK_Products", x => x.Id);
                 });
+
+            migrationBuilder.InsertData(
+                table: "Products",
+                columns: new[] { "Id", "DefaultPrice", "Description", "Name", "VolPerUnit" },
+                values: new object[] { 1, 4.56f, "Bundle of Bananas", "Bananas", 1.2f });
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)

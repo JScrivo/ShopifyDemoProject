@@ -26,7 +26,7 @@ namespace ShopifyDemoProject.Controllers
         [HttpGet("{productID}/{locationID}")]
         public async Task<IActionResult> Get(int productID, int locationID)
         {
-            var inventory = await _db.Inventories.FirstOrDefaultAsync(x => x.ItemID.Equals(productID) && x.LocationID.Equals(locationID));
+            var inventory = await _db.Inventories.FirstOrDefaultAsync(x => x.ProductID.Equals(productID) && x.LocationID.Equals(locationID));
             if (inventory == null) return BadRequest("Inventory not found");
             return new JsonResult(inventory);
         }
@@ -34,7 +34,7 @@ namespace ShopifyDemoProject.Controllers
         [HttpPost]
         public async Task<IActionResult> Post(Inventory inventory)
         {
-            var existing = await _db.Inventories.FirstOrDefaultAsync(x => x.ItemID.Equals(inventory.ItemID) && x.LocationID.Equals(inventory.LocationID));
+            var existing = await _db.Inventories.FirstOrDefaultAsync(x => x.ProductID.Equals(inventory.ProductID) && x.LocationID.Equals(inventory.LocationID));
             if (existing != null) return BadRequest("Inventory already exists for this item at this location.");
 
             FranchiseManager franchiseManager = new();
@@ -44,13 +44,13 @@ namespace ShopifyDemoProject.Controllers
             _db.Inventories.Add(inventory);
             await _db.SaveChangesAsync();
 
-            return new JsonResult(new { ItemID = inventory.ItemID, LocationID = inventory.LocationID });
+            return new JsonResult(new { ItemID = inventory.ProductID, LocationID = inventory.LocationID });
         }
 
         [HttpPut]
         public async Task<IActionResult> Update(Inventory inventory)
         {
-            var existing = await _db.Inventories.FirstOrDefaultAsync(x => x.ItemID.Equals(inventory.ItemID) && x.LocationID.Equals(inventory.LocationID));
+            var existing = await _db.Inventories.FirstOrDefaultAsync(x => x.ProductID.Equals(inventory.ProductID) && x.LocationID.Equals(inventory.LocationID));
             if (existing == null) return BadRequest("Inventory not found");
 
             FranchiseManager franchiseManager = new();
@@ -62,13 +62,13 @@ namespace ShopifyDemoProject.Controllers
             _db.Inventories.Update(existing);
             await _db.SaveChangesAsync();
 
-            return new JsonResult(new { ItemID = inventory.ItemID, LocationID = inventory.LocationID });
+            return new JsonResult(new { ItemID = inventory.ProductID, LocationID = inventory.LocationID });
         }
 
         [HttpDelete]
         public async Task<IActionResult> Delete(int itemID, int locationID)
         {
-            var inventory = await _db.Inventories.FirstOrDefaultAsync(x => x.ItemID.Equals(itemID) && x.LocationID.Equals(locationID));
+            var inventory = await _db.Inventories.FirstOrDefaultAsync(x => x.ProductID.Equals(itemID) && x.LocationID.Equals(locationID));
             if (inventory == null) return BadRequest("Inventory not found");
 
             _db.Inventories.Remove(inventory);

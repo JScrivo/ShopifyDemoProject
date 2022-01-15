@@ -8,7 +8,7 @@ namespace ShopifyDemoProject
         public async Task<bool> WillNewInventoryFit(Inventory inventory, AppDbContext _db)
         {
             float remainingCapacity = await CheckRemainingInventory(inventory.LocationID, _db);
-            Product product = await _db.Products.AsNoTracking().FirstAsync(x => x.Id == inventory.ItemID);
+            Product product = await _db.Products.AsNoTracking().FirstAsync(x => x.Id == inventory.ProductID);
 
             return remainingCapacity - (product.VolPerUnit * inventory.Quantity) >= 0;
         }
@@ -16,9 +16,9 @@ namespace ShopifyDemoProject
         public async Task<bool> WillUpdatedInventroyFit(Inventory inventory, AppDbContext _db)
         {
             float remainingCapacity = await CheckRemainingInventory(inventory.LocationID, _db);
-            Product product = await _db.Products.AsNoTracking().FirstAsync(x => x.Id == inventory.ItemID);
+            Product product = await _db.Products.AsNoTracking().FirstAsync(x => x.Id == inventory.ProductID);
             int quantityDifference = inventory.Quantity - (await _db.Inventories.FirstAsync(x => x.LocationID.Equals(inventory.LocationID) &&
-                                                                                        x.ItemID.Equals(inventory.ItemID))).Quantity;
+                                                                                        x.ProductID.Equals(inventory.ProductID))).Quantity;
             return remainingCapacity - (quantityDifference * product.VolPerUnit) >= 0;
         }
 
@@ -30,7 +30,7 @@ namespace ShopifyDemoProject
 
             foreach (Inventory item in inventory)
             {
-                Product product = _db.Products.AsNoTracking().First(x => x.Id == item.ItemID);
+                Product product = _db.Products.AsNoTracking().First(x => x.Id == item.ProductID);
                 capacity -= product.VolPerUnit * item.Quantity;
             }
 

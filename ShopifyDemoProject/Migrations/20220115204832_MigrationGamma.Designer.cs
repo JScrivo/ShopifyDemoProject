@@ -11,8 +11,8 @@ using ShopifyDemoProject;
 namespace ShopifyDemoProject.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20220108214955_MigrationAlpha")]
-    partial class MigrationAlpha
+    [Migration("20220115204832_MigrationGamma")]
+    partial class MigrationGamma
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -25,7 +25,7 @@ namespace ShopifyDemoProject.Migrations
 
             modelBuilder.Entity("ShopifyDemoProject.Models.Inventory", b =>
                 {
-                    b.Property<int>("ItemID")
+                    b.Property<int>("ProductID")
                         .HasColumnType("int");
 
                     b.Property<int>("LocationID")
@@ -34,7 +34,7 @@ namespace ShopifyDemoProject.Migrations
                     b.Property<int>("Quantity")
                         .HasColumnType("int");
 
-                    b.HasKey("ItemID", "LocationID");
+                    b.HasKey("ProductID", "LocationID");
 
                     b.ToTable("Inventories");
                 });
@@ -65,7 +65,7 @@ namespace ShopifyDemoProject.Migrations
 
             modelBuilder.Entity("ShopifyDemoProject.Models.Price", b =>
                 {
-                    b.Property<int>("ItemID")
+                    b.Property<int>("ProductID")
                         .HasColumnType("int");
 
                     b.Property<int>("LocationID")
@@ -74,7 +74,7 @@ namespace ShopifyDemoProject.Migrations
                     b.Property<float>("UnitPrice")
                         .HasColumnType("real");
 
-                    b.HasKey("ItemID", "LocationID");
+                    b.HasKey("ProductID", "LocationID");
 
                     b.ToTable("Prices");
                 });
@@ -104,6 +104,16 @@ namespace ShopifyDemoProject.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            DefaultPrice = 4.56f,
+                            Description = "Bundle of Bananas",
+                            Name = "Bananas",
+                            VolPerUnit = 1.2f
+                        });
                 });
 #pragma warning restore 612, 618
         }
