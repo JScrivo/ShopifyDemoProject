@@ -19,6 +19,7 @@ namespace ShopifyDemoProject.Controllers
         {
             return View();
         }*/
+        //TODO: Replace JsonResult with OkObjectResult for all endpoints
 
         [HttpGet]
         public async Task<IActionResult> Get()

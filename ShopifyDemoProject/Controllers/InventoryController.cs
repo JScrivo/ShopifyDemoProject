@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using ShopifyDemoProject.Models;
+using ShopifyDemoProject;
 
 namespace ShopifyDemoProject.Controllers
 {
@@ -22,19 +23,23 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(inventories);
         }
 
-        /*[HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{productID}/{locationID}")]
+        public async Task<IActionResult> Get(int productID, int locationID)
         {
-            var inventory = await _db.Inventories.FirstOrDefaultAsync(x => x.Id == id);
-            if (product == null) return BadRequest("Inventory not found");
-            return new JsonResult(product);
-        }*/
+            var inventory = await _db.Inventories.FirstOrDefaultAsync(x => x.ItemID.Equals(productID) && x.LocationID.Equals(locationID));
+            if (inventory == null) return BadRequest("Inventory not found");
+            return new JsonResult(inventory);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Post(Inventory inventory)
         {
             var existing = await _db.Inventories.FirstOrDefaultAsync(x => x.ItemID.Equals(inventory.ItemID) && x.LocationID.Equals(inventory.LocationID));
             if (existing != null) return BadRequest("Inventory already exists for this item at this location.");
+
+            FranchiseManager franchiseManager = new();
+
+            if (!await franchiseManager.WillNewInventoryFit(inventory, _db)) return BadRequest("The seleted location does not have enough room to store the specified quantity of this product.");
 
             _db.Inventories.Add(inventory);
             await _db.SaveChangesAsync();
@@ -47,6 +52,10 @@ namespace ShopifyDemoProject.Controllers
         {
             var existing = await _db.Inventories.FirstOrDefaultAsync(x => x.ItemID.Equals(inventory.ItemID) && x.LocationID.Equals(inventory.LocationID));
             if (existing == null) return BadRequest("Inventory not found");
+
+            FranchiseManager franchiseManager = new();
+
+            if (!await franchiseManager.WillUpdatedInventroyFit(inventory, _db)) return BadRequest("The seleted location does not have enough room to store the specified quantity of this product.");
 
             existing.Quantity = inventory.Quantity;
 
@@ -68,18 +77,8 @@ namespace ShopifyDemoProject.Controllers
             return new OkObjectResult("Inventory deleted");
         }
 
-        public float CheckRemainingInventory(int locationID)
-        {
-            var inventory =  _db.Inventories.Where(x => x.LocationID == locationID);
-            float capacity = _db.Locations.First(x => x.Id == locationID).Capacity;
+        
 
-            foreach (Inventory item in inventory)
-            {
-                Product product = _db.Products.First(x => x.Id == item.ItemID);
-                capacity -= product.VolPerUnit * item.Quantity;
-            }
-
-            return capacity;
-        }
+        
     }
 }

@@ -22,13 +22,28 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(prices);
         }
 
-        /*[HttpGet("{id}")]
-        public async Task<IActionResult> Get(int id)
+        [HttpGet("{productID}/{locationID}")]
+        public async Task<IActionResult> Get(int productID, int locationID)
         {
-            var location = await _db.Locations.FirstOrDefaultAsync(x => x.Id == id);
-            if (location == null) return BadRequest("Location not found");
-            return new JsonResult(location);
-        }*/
+            var pricing = await _db.Prices.FirstOrDefaultAsync(x => x.ItemID.Equals(productID) && x.LocationID.Equals(locationID));
+            if (pricing == null)
+            {
+                var product = await _db.Products.FirstOrDefaultAsync(x => x.Id.Equals(productID));
+                if (product == null) return BadRequest("Product not found");
+
+                pricing = new Price();
+                pricing.LocationID = locationID;
+                pricing.UnitPrice = product.DefaultPrice;
+                pricing.ItemID = productID;
+
+                return new JsonResult(new { productPricing = pricing, defaultPricing = true });
+
+            } else
+            {
+                return new JsonResult(new { productPricing = pricing, defaultPricing = false });
+            }
+               
+        }
 
         [HttpPost]
         public async Task<IActionResult> Post(Price price)
