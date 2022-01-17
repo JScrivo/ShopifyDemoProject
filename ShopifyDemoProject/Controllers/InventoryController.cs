@@ -31,6 +31,18 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(inventory);
         }
 
+        [HttpGet("RemainingCapacitySummary")]
+        public async Task<IActionResult> RemainingCapacitySummary()
+        {
+            FranchiseManager franchiseManager = new();
+            var locations = await _db.Locations.ToListAsync();
+            foreach(var location in locations)
+            {
+                location.Capacity = await franchiseManager.CheckRemainingInventory(location.Id, _db);
+            }
+            return new JsonResult(locations);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Post(Inventory inventory)
         {
