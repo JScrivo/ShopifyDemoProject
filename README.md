@@ -17,6 +17,10 @@ Swagger provides an auto-generated frontend which makes it significantly easier 
 - Swagger
 
 # Install and Run
+If your system does not have virtualization enabled, do the following:
+- Enter your system bios
+- On AMD system: Enable VT-x/AMD-V
+- On Intel system: Enable Intel(R) Virtualization Technology
 
 If your system does not have the Linux Subsystem install it can be install by the following:
 - Run Command Prompt in Administator Mode
