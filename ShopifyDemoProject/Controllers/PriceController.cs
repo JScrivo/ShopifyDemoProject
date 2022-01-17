@@ -15,6 +15,9 @@ namespace ShopifyDemoProject.Controllers
             _db = db;
         }
 
+        //Additional context: The thinking behind this controller, schema, etc. was that at certain locations you would probably want to set differant prices than the MSRP you would use at majority of locations
+
+        //Produces a list of all alternative prices set
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -22,6 +25,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(prices);
         }
 
+        //Get a price for a specific product at a specific location, if there is no set price, the default price will be displayed
         [HttpGet("{productID}/{locationID}")]
         public async Task<IActionResult> Get(int productID, int locationID)
         {
@@ -45,6 +49,7 @@ namespace ShopifyDemoProject.Controllers
                
         }
 
+        //Create an alernative price by passing json through post
         [HttpPost]
         public async Task<IActionResult> Post(Price price)
         {
@@ -57,6 +62,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(new { ItemID = price.ProductID, LocationID = price.LocationID });
         }
 
+        //Update an alernative price record by passing json
         [HttpPut]
         public async Task<IActionResult> Update(Price price)
         {
@@ -71,10 +77,11 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(new { ItemID = price.ProductID, LocationID = price.LocationID });
         }
 
+        //Delete a specific price record by passing a product ID and location ID
         [HttpDelete]
-        public async Task<IActionResult> Delete(int itemID, int locationID)
+        public async Task<IActionResult> Delete(int productID, int locationID)
         {
-            var existing = await _db.Prices.FirstOrDefaultAsync(x => x.ProductID.Equals(itemID) && x.LocationID.Equals(locationID));
+            var existing = await _db.Prices.FirstOrDefaultAsync(x => x.ProductID.Equals(productID) && x.LocationID.Equals(locationID));
             if (existing == null) return BadRequest("Price for this item not found at specified location.");
 
             _db.Prices.Remove(existing);
