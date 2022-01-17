@@ -28,6 +28,10 @@ If your system does not have visual studio installed, do the following:
 - Download and install visual studio, download can be found here: https://visualstudio.microsoft.com/downloads/
 - Select the ASP.NET and Web Developement Workload during installation
 
+If your system does not have Docker Desktop installed, do the following:
+- Download and install Docker Desktop, download can be found here: https://www.docker.com/products/docker-desktop
+- During installation ensure install additional components for WSL2 is checked
+
 Testing the project:
 - Clone the project
 - Open the project and double click the solution file
