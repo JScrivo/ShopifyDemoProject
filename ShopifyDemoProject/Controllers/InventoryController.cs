@@ -16,6 +16,7 @@ namespace ShopifyDemoProject.Controllers
             _db = db;
         }
 
+        //Produces a list of all inventory
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -23,6 +24,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(inventories);
         }
 
+        //Produces the record of inventory of a specific product at a specific location
         [HttpGet("{productID}/{locationID}")]
         public async Task<IActionResult> Get(int productID, int locationID)
         {
@@ -31,6 +33,20 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(inventory);
         }
 
+        //Produces a list of locations with the capacity displayed as remaining capacity
+        [HttpGet("RemainingCapacitySummary")]
+        public async Task<IActionResult> RemainingCapacitySummary()
+        {
+            FranchiseManager franchiseManager = new();
+            var locations = await _db.Locations.ToListAsync();
+            foreach(var location in locations)
+            {
+                location.Capacity = await franchiseManager.CheckRemainingInventory(location.Id, _db);
+            }
+            return new JsonResult(locations);
+        }
+
+        //Creates new Inventory record passed through post, rejects request if the products will not fit at the location
         [HttpPost]
         public async Task<IActionResult> Post(Inventory inventory)
         {
@@ -47,6 +63,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(new { ItemID = inventory.ProductID, LocationID = inventory.LocationID });
         }
 
+        //Accepts post data to update an existing inventory record
         [HttpPut]
         public async Task<IActionResult> Update(Inventory inventory)
         {
@@ -65,6 +82,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(new { ItemID = inventory.ProductID, LocationID = inventory.LocationID });
         }
 
+        //Deletes an inventory record when given a specific product at a specific location
         [HttpDelete]
         public async Task<IActionResult> Delete(int itemID, int locationID)
         {

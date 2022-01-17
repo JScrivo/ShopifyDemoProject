@@ -5,6 +5,7 @@ namespace ShopifyDemoProject
 {
     public class FranchiseManager
     {
+        //Checks if new inventory will fit a location
         public async Task<bool> WillNewInventoryFit(Inventory inventory, AppDbContext _db)
         {
             float remainingCapacity = await CheckRemainingInventory(inventory.LocationID, _db);
@@ -13,6 +14,7 @@ namespace ShopifyDemoProject
             return remainingCapacity - (product.VolPerUnit * inventory.Quantity) >= 0;
         }
 
+        //Checks if a change to existing inventory will exceed capacity
         public async Task<bool> WillUpdatedInventroyFit(Inventory inventory, AppDbContext _db)
         {
             float remainingCapacity = await CheckRemainingInventory(inventory.LocationID, _db);
@@ -22,6 +24,7 @@ namespace ShopifyDemoProject
             return remainingCapacity - (quantityDifference * product.VolPerUnit) >= 0;
         }
 
+        //Calculates the remaining capacity of a location
         public async Task<float> CheckRemainingInventory(int locationID, AppDbContext _db)
         {
             var inventory = await _db.Inventories.AsNoTracking().Where(x => x.LocationID == locationID).ToListAsync();

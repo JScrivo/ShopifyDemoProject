@@ -15,12 +15,7 @@ namespace ShopifyDemoProject.Controllers
             _db = db;
         }
 
-        /*public IActionResult Index()
-        {
-            return View();
-        }*/
-        //TODO: Replace JsonResult with OkObjectResult for all endpoints
-
+        //Produces a list of all products on record
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -28,6 +23,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(products);
         }
 
+        //Produces information about a specific product
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -36,6 +32,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(product);
         }
 
+        //Accepts JSON through Post to create a new product record
         [HttpPost]
         public async Task<IActionResult> Post(Product product)
         {
@@ -45,6 +42,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(new { Id = product.Id });
         }
 
+        //Accepts JSON through Post to update a product record
         [HttpPut]
         public async Task<IActionResult> Update(Product product)
         {
@@ -61,6 +59,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(product.Id);
         }
 
+        //Deletes a product when provided with its ID
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {

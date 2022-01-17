@@ -15,6 +15,7 @@ namespace ShopifyDemoProject.Controllers
             _db = db;
         }
 
+        //Produces a list of all locations
         [HttpGet]
         public async Task<IActionResult> Get()
         {
@@ -22,6 +23,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(locations);
         }
 
+        //Produces information about a specific location
         [HttpGet("{id}")]
         public async Task<IActionResult> Get(int id)
         {
@@ -30,6 +32,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(location);
         }
 
+        //Accepts data through post to create a new location record
         [HttpPost]
         public async Task<IActionResult> Post(Location location)
         {
@@ -39,6 +42,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(new { Id = location.Id });
         }
 
+        //Accepts data through post to update a location record
         [HttpPut]
         public async Task<IActionResult> Update(Location location)
         {
@@ -55,6 +59,7 @@ namespace ShopifyDemoProject.Controllers
             return new JsonResult(location.Id);
         }
 
+        //Deletes a specific location given the location id
         [HttpDelete]
         public async Task<IActionResult> Delete(int id)
         {
